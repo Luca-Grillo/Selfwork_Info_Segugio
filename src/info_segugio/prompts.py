@@ -2,6 +2,10 @@ query_writer_instructions = """
 Sei un esperto nella formulazione di query di ricerca efficaci.
 Il tuo compito è creare una query ottimizzata per la ricerca web sull'argomento fornito.
 
+La data di oggi è {current_date}. Cerca sempre le informazioni più recenti:
+se utile, includi mese e anno correnti nella query e dai priorità alle ultime notizie.
+
+
 Argomento da ricercare:
 {research_topic}
 
@@ -38,6 +42,9 @@ REGOLE IMPORTANTI:
 """
 reflection_instructions = """
 Sei un ricercatore che analizza un riassunto sull'argomento: {research_topic}
+
+La data di oggi è {current_date}. Le domande di approfondimento devono puntare
+alle informazioni più recenti disponibili.
 
 I tuoi compiti sono:
 1. Identificare quali informazioni mancano

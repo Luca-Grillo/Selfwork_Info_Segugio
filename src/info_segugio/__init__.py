@@ -8,6 +8,7 @@ from info_segugio.prompts import (
     summarizer_instructions,
     reflection_instructions,
 )
+from datetime import date
 
 
 client = OpenAI(base_url=Config.AI_API_URL, api_key=Config.AI_API_KEY)
@@ -27,7 +28,10 @@ def llm(developer_prompt, user_prompt, temperature=0, response_format={"type": "
 
 
 def optimize_search_query(research_topic):
-    formatted_instructions = query_writer_instructions.format(research_topic=research_topic)
+    formatted_instructions = query_writer_instructions.format(
+        research_topic=research_topic,
+        current_date=date.today().strftime("%d/%m/%Y"),
+    )
     result = llm(formatted_instructions, "Genera una query per la ricerca web:")
     return json.loads(result)
 
@@ -81,8 +85,11 @@ def summarize_sources(web_research_results, research_topic, running_summary=None
     # Analizza il riassunto corrente e genera una domanda di approfondimento
 def reflect_on_summary(research_topic, running_summary):
     result = llm(
-        reflection_instructions.format(research_topic=research_topic),
-        f"Identifica una lacuna e genera una domanda per la prossima ricerca basandoti su: {running_summary}"
+        reflection_instructions.format(
+            research_topic=research_topic,
+            current_date=date.today().strftime("%d/%m/%Y"),
+        ),
+        f"Identifica una lacuna e genera una domanda per la prossima ricerca basandoti su: {running_summary}",
     )
     return json.loads(result)
 
